@@ -43,8 +43,6 @@ public class CommonActionOnPages {
         driver.findElement(locator).sendKeys(Keys.chord(Keys.CONTROL, "a"), fecha, Keys.ENTER);
     }
 
-
-
     public void setZoom(int zoomLevel) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("document.body.style.zoom = '" + zoomLevel + "%'");

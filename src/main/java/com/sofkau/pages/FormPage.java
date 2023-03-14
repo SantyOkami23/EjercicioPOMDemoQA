@@ -1,21 +1,25 @@
 package com.sofkau.pages;
 
 import com.sofkau.models.Estudiante;
+import com.sofkau.util.Hobbies;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-import static org.sikuli.script.support.Device.delay;
+import java.util.List;
 
-public class FormPage extends CommonActionOnPages{
-// Se debe corregir los clicks en la pagina de inicio, no me da por alguna razón
+public class FormPage extends CommonActionOnPages {
+
+
+    // Se debe corregir los clicks en la pagina de inicio, no me da por alguna razón
     private final By inicio = By.xpath("//div[@class='card mt-4 top-card'][2]");
     private final By clickForm = By.xpath("//*[text()='Practice Form']");
-    private final By name = By.id ("firstName");
-    private final By lastName = By.id ("lastName");
-    private final By email = By.id ("userEmail");
-    private final By userNumber = By.id ("userNumber");
-    private final  By selectMale = By.id ("gender-radio-1");
-    private final By selectFemale= By.id("gender-radio-2");
+    private final By name = By.id("firstName");
+    private final By lastName = By.id("lastName");
+    private final By email = By.id("userEmail");
+    private final By userNumber = By.id("userNumber");
+    private final By selectMale = By.id("gender-radio-1");
+    private final By selectFemale = By.id("gender-radio-2");
     private final By selectOther = By.id("gender-radio-3");
     private final By dateofBirth = By.id("dateOfBirthInput");
     private final By hobbieSport = By.id("hobbies-checkbox-1");
@@ -25,17 +29,90 @@ public class FormPage extends CommonActionOnPages{
     private final By state = By.id("react-select-3-input");
     private final By city = By.id("react-select-4-input");
     private final By submit = By.cssSelector("#submit");
-    private  final  By adressUsuario   = By.id("currentAddress");
-    public FormPage(WebDriver driver) {
+    private final By adressUsuario = By.id("currentAddress");
+
+    private final Estudiante estudiante;
+
+
+    //constructor
+    public FormPage(WebDriver driver, Estudiante estudiante) {
         super(driver);
-        final Estudiante estudiante = new Estudiante();
+        this.estudiante = estudiante;
     }
 
-    private final Estudiante estudiante = new Estudiante();
+    public void FillMandatoryFields() {
+        setZoom(50);
 
-// Mala practica de usar constantes, no quemar valores en el codigo
-    public void FillMandatoryFields () {
-        setZoom(40);
+        typeInto(name, estudiante.getName());
+        System.out.println(" Imprime?  " + estudiante.getName());
+        typeInto(lastName, estudiante.getLastName());
+        typeInto(email, estudiante.getEmail());
+
+        // Switch para seleccionar el generoen relación a la clase enum
+
+        switch (estudiante.getGender()) {
+            case MALE:
+                pressSpace(selectMale);
+                break;
+            case FEMALE:
+                pressSpace(selectFemale);
+                break;
+            case OTHER:
+                pressSpace(selectOther);
+                break;
+            default:
+        }
+
+
+        typeInto(userNumber, estudiante.getUserNumber());
+
+        // Lista para guardar las materias y seleccionarlas con el for
+
+        List listSubjects = estudiante.getSubjects();
+        for (Object listSubject : listSubjects) {
+            typeInto(subjects, (String) listSubject);
+            pressEnter(subjects);
+        }
+
+        //Switch para seleccionar la lista de hobbies
+        List<Hobbies> listHobbies = estudiante.getHobbies();
+        for (Object listHobby : listHobbies) {
+            switch ((Hobbies) listHobby) {
+                case SPORTS:
+                    pressSpace(hobbieSport);
+                    break;
+                case READING:
+                    pressSpace(hobbieReading);
+                    break;
+                case MUSIC:
+                    pressSpace(hobbieMusic);
+                    break;
+            }
+
+        }
+
+        typeInto(adressUsuario, estudiante.getAdressUsuario());
+
+
+
+        System.out.println("estudiante.getCity() = " + estudiante.getCity());
+
+
+        pressSpace(state);
+        typeInto(state, estudiante.getState());
+        pressEnter(state);
+
+        pressSpace(city);
+        typeInto(city, estudiante.getCity());
+        pressEnter(city);
+        calendar(dateofBirth, estudiante.getDateofBirth());
+        System.out.println("estudiante.getDateofBirth() = " + estudiante.getDateofBirth());
+        pressSpace(submit);
+
+
+/*
+
+
         //clearText( name);
         typeInto(name, "Santy");
         //clearText( lastName);
@@ -60,15 +137,15 @@ public class FormPage extends CommonActionOnPages{
         typeInto(adressUsuario, "Calle 123");
         pressSpace(submit);
 
+*/
     }
 
 
-
-
-    public void inicioPagina () throws InterruptedException {
+    // Falta implementar
+    public void inicioPagina() throws InterruptedException {
         setZoom(75);
-        click (inicio);
-        Thread.sleep (2000);
-        click (clickForm);
+        click(inicio);
+        Thread.sleep(2000);
+        click(clickForm);
     }
 }

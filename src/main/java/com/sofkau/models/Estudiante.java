@@ -13,9 +13,12 @@ public class Estudiante {
     private String userNumber;
     private List<String> subjects;
     private List<Hobbies> hobbies;
+
     private String picture;
     private String city;
     private String state;
+    private String adressUsuario;
+    private String dateofBirth;
 
     public String getName() {
         return name;
@@ -65,12 +68,12 @@ public class Estudiante {
         this.subjects = subjects;
     }
 
-    public void setHobbies(List<Hobbies> hobbies) {
-        this.hobbies = hobbies;
+    public List<Hobbies> getHobbies () {
+        return hobbies;
     }
 
-    public List<Hobbies> getHobbies() {
-        return hobbies;
+    public void setHobbies (List<Hobbies> hobbies) {
+        this.hobbies = hobbies;
     }
 
     public String getPicture() {
@@ -96,5 +99,19 @@ public class Estudiante {
         this.state = state;
     }
 
+    public String getAdressUsuario() {
+        return adressUsuario;
+    }
 
+    public void setAdressUsuario(String adressUsuario) {
+        this.adressUsuario = adressUsuario;
+    }
+
+    public String getDateofBirth() {
+        return dateofBirth;
+    }
+
+    public void setDateofBirth(String dateofBirth) {
+        this.dateofBirth = dateofBirth;
+    }
 }
